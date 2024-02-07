@@ -10,7 +10,10 @@
   },
   "parameters": {
     "logicAppName": {
-      "type": "string"
+      "type": "string",
+      "metadata":{
+        "description":"Name of the logic app. Resource Group Unique. 1-43 Characters"
+      }
     },
     "location": {
       "type": "string"
