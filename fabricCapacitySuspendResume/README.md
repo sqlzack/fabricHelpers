@@ -8,3 +8,5 @@ I am a Microsoft employee working in the Customer Success space. I am not in eng
 
 ## Install Insructions
 1. Follow this link.
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https%3A%2F%2Fraw.githubusercontent.com%2Fsqlzack%2FfabricHelpers%2Fmain%2FfabricCapacitySuspendResume%2Farm%2FfabricSuspendResume.json)
