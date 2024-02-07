@@ -12,23 +12,39 @@
     "logicAppName": {
       "type": "string",
       "metadata":{
-        "description":"Name of the logic app. Resource Group Unique. 1-43 Characters"
+        "description":"Name of the logic app. Unique to the Resource Group. 1-43 Characters"
       }
     },
     "location": {
-      "type": "string"
+      "type": "string",
+      "defaultValue":"[resourceGroup().location]",
+       "metadata":{
+        "description":"Azure Region that Logic App will be deployed to. Likely the same as selected Resource Group"
+      }     
     },
     "actionSuspendResume": {
-      "type": "string"
+      "type": "string",
+       "metadata":{
+        "description":"Put the value suspend or resume (in lower case) to tell the logic app which action against Fabric Capaicity you're automating"
+      }     
     },
     "fabricCapacityName": {
-      "type": "string"
+      "type": "string",
+       "metadata":{
+        "description":"Name of Fabric Capacity. Can be found in Portal"
+      }     
     },
     "fabricResourceGroup": {
-      "type": "string"
+      "type": "string",
+       "metadata":{
+        "description":"Name of Resource Group containing Fabric Capacity. Can be found in Portal."
+      }     
     },
     "fabricSubscriptionId": {
-      "type": "string"
+      "type": "string",
+       "metadata":{
+        "description":"Name of Subscription ID containing Fabric Capacity. Can be found in Portal."
+      }     
     }
   },
   "variables": {
