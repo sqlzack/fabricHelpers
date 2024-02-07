@@ -1,0 +1,101 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.22.6.54827",
+      "templateHash": "7231917851099424337"
+    }
+  },
+  "parameters": {
+    "logicAppName": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "actionSuspendResume": {
+      "type": "string"
+    },
+    "fabricCapacityName": {
+      "type": "string"
+    },
+    "fabricResourceGroup": {
+      "type": "string"
+    },
+    "fabricSubscriptionId": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "managementUrl": "[environment().resourceManager]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2017-07-01",
+      "name": "[parameters('logicAppName')]",
+      "location": "[parameters('location')]",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "action": {
+              "defaultValue": "[parameters('actionSuspendResume')]",
+              "type": "String"
+            },
+            "capacityName": {
+              "defaultValue": "[parameters('fabricCapacityName')]",
+              "type": "String"
+            },
+            "resourceGroupName": {
+              "defaultValue": "[parameters('fabricResourceGroup')]",
+              "type": "String"
+            },
+            "subscriptionId": {
+              "defaultValue": "[parameters('fabricSubscriptionId')]",
+              "type": "String"
+            }
+          },
+          "triggers": {
+            "Recurrence": {
+              "recurrence": {
+                "frequency": "Day",
+                "interval": 1,
+                "schedule": {}
+              },
+              "evaluatedRecurrence": {
+                "frequency": "Day",
+                "interval": 1,
+                "schedule": {}
+              },
+              "type": "Recurrence"
+            }
+          },
+          "actions": {
+            "HTTP": {
+              "runAfter": {},
+              "type": "Http",
+              "inputs": {
+                "authentication": {
+                  "audience": "[variables('managementUrl')]",
+                  "type": "ManagedServiceIdentity"
+                },
+                "method": "POST",
+                "uri": "[format('{0}/subscriptions/@{{parameters(''subscriptionId'')}}/resourceGroups/@{{parameters(''resourceGroupName'')}}/providers/Microsoft.Fabric/capacities/@{{parameters(''capacityName'')}}/@{{parameters(''action'')}}?api-version=2022-07-01-preview', variables('managementUrl'))]"
+              }
+            }
+          },
+          "outputs": {}
+        },
+        "parameters": {}
+      }
+    }
+  ]
+}
